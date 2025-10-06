@@ -1,6 +1,6 @@
 {
   "name": "gwrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Another generic wrapper for Electron.js",
   "main": "src/index.js",
   "directories": {
