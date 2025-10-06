@@ -78,11 +78,9 @@ class GWrapper {
 
 
     init() {
-        if (app.isReady()) {
+        app.whenReady().then(() => {
             this.#_initWindows();
-        } else {
-            console.error("App is NOT ready.");
-        }
+        });
     }
 
     die() {
