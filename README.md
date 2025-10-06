@@ -5,7 +5,7 @@ A minimal Electron.js wrapper with splash and main window support.
 ## Usage Example
 
 ```js
-const GWrapper = require('./src/index.js');
+const GWrapper = require("gwrapper");
 
 const config = {
   mainWindow: { width: 800, height: 600 },
