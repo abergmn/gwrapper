@@ -1,9 +1,11 @@
 const { app, BrowserWindow } = require("electron");
+const path = require("path");
 
 class GWrapper {
-    constructor() {
-        this.mainWindow = this.mainWindow;
-        this.splashWindow = this.splashWindow;
+    constructor(t_wrapper_arguments) {
+        this.wrapperArgs = t_wrapper_arguments;
+        this.mainWindow = null;
+        this.splashWindow = null;
     }
 
     #_combineBrowserWindowOptions(t_default_options, t_custom_options) {
@@ -18,6 +20,8 @@ class GWrapper {
     }
 
     #_initMainWindow(t_window_options) {
+        console.log("Init main window...");
+
         const defaultBrowserWindowOptions = {
             show: false,
             webPreferences: {
@@ -26,17 +30,22 @@ class GWrapper {
         };
     
         this.mainWindow = new BrowserWindow(this.#_combineBrowserWindowOptions(
-            defaultBrowserWindowOptions, t_window_options));
+            defaultBrowserWindowOptions, t_window_options || {}));
 
         // main window customizations involving function calls
         this.mainWindow.removeMenu();
         // NOTE: come back and implement url/file logic to handle what is loaded.
-        this.mainWindow.loadURL("https://exmple.com");
+        try {
+            this.mainWindow.loadURL("https://example.com");
+        } catch (err) {
+            console.error("Failed to load main window URL:", err);
+        }
     }
 
     #_initSplashWindow(t_window_options) {
+        console.log("Init splash window...");
+
         const defaultBrowserWindowOptions = {
-            width: 640, height: 320,
             frame: false,
             resizable: false,
             movable: false,
@@ -47,37 +56,43 @@ class GWrapper {
         }
     
         this.splashWindow = new BrowserWindow(this.#_combineBrowserWindowOptions(
-            defaultBrowserWindowOptions, t_window_options
-        ));
+            defaultBrowserWindowOptions, t_window_options || {}));
 
         // splash window customizations involving function calls
         this.splashWindow.removeMenu();
-        this.splashWindow.loadFile(path.join(__dirname, "html/splash.html"));
+        try {
+            this.splashWindow.loadFile(path.join(__dirname, "html/splash.html"));
+        } catch (err) {
+            console.error("Failed to load splash window file:", err);
+        }
 
         // check splash window is done loading, if so, show splash window
         // then begin game window did finish load check.
         this.splashWindow.webContents.once("did-finish-load", () => {
             this.splashWindow.show();
+            // NOTE: For testing purposes; in real use, remove the timeout and just show the main window when ready
             this.mainWindow.once("ready-to-show", () => {
-                this.splashWindow.destroy();
+                setTimeout(() => {
+                    this.mainWindow.show();
+                    this.splashWindow.destroy();
+                }, 2000); // 2s
             });
         });
     }
         
     #_initWindows() {
-        if (this.splashWindowOptions) {
-            this.#_initSplashWindow({
-                /// ...options
-            });
+        console.log("Init windows...");
+
+        if (this.wrapperArgs.splashWindow) {
+            this.#_initSplashWindow(this.wrapperArgs.splashWindow);
         }
 
-        this.#_initMainWindow({
-            // ...options
-        });
+        this.#_initMainWindow(this.wrapperArgs.mainWindow);
     }
 
 
     init() {
+        console.log("Init...");
         app.whenReady().then(() => {
             this.#_initWindows();
         });
