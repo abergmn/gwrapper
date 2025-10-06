@@ -99,7 +99,7 @@ class GWrapper {
     }
 
     die() {
-        if (this.mainWIndow) this.mainWindow.close();
+        if (this.mainWindow) this.mainWindow.close();
         if (this.splashWIndow) this._splashWindow.close();
     }
 }
