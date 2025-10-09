@@ -8,8 +8,14 @@ A minimal Electron.js wrapper with splash and main window support.
 const GWrapper = require("gwrapper");
 
 const app = new GWrapper({
-    mainWindow: { width: 800, height: 600 },
-    splashWindow: { width: 640, height: 320 }
+    splashWindow: {
+        width: 800, height: 600,
+        g_loadFile: "html/splash.html"
+    },
+    mainWindow: {
+        width: 800, height: 600,
+        g_loadURL: "https://example.com/"
+    },
 });
 
 app.init();
