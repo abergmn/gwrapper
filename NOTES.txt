@@ -1,0 +1,9 @@
+implement "t_load_scheme" as paramater to init splash/main
+functions to handle loading file/url. pass JSON object:
+
+{
+    "type": "",
+    "value": ""
+}
+
+maybe RegEx later. but for now this works.
