@@ -40,6 +40,11 @@ class GWrapper {
     }
 
     #__handleLoadScheme(t_browser_window, t_load_scheme) {
+        // does passed object contain 'type' and 'value' keys?
+        // if not, throw error
+
+        // else, handle load scheme based on type
+
         if (!t_browser_window || !t_load_scheme || !t_load_scheme.type || !t_load_scheme.value) {
             throw new Error("ERRPR: Invalid arguments passed to '__handleLoadScheme'");
         }
@@ -95,19 +100,13 @@ class GWrapper {
 
     #__initAllWindows() {
         // initialize main window with aplicable logic & options (logic good? more applicable?)
-        this.#__initMainWindow({
-            type: "url",
-            value: "https://example.com"
-        });
+        this.#__initMainWindow(t_wrapper_arguments.main_window.toLoad, t_wrapper_arguments.main_window.options);
 
         // initialize splash window with applicable logic & options (logic good? more applicable?)
-        this.#__initSplashWindow({
-            type: "file",
-            value: path.join(__dirname, "html/splash.html")
-        });
+        this.#__initSplashWindow(t_wrapper_arguments.splash_window.toLoad, t_wrapper_arguments.splash_window.options);
     }
 
-    init() {
+    run() {
         // Electron app is ready
         app.whenReady().then(() => {
             this.#__initAllWindows();

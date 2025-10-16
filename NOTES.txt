@@ -7,3 +7,7 @@ functions to handle loading file/url. pass JSON object:
 }
 
 maybe RegEx later. but for now this works.
+
+// fetch load schemes from 't_wrapper_arguments
+
+rewrite '#__handleLoadScheme' function to  
