@@ -40,15 +40,13 @@ class GWrapper {
     }
 
     #__handleLoadScheme(t_browser_window, t_load_scheme) {
-        // does passed object contain 'type' and 'value' keys?
-        // if not, throw error
 
-        // else, handle load scheme based on type
-
+        // check if type and value keys exist
         if (!t_browser_window || !t_load_scheme || !t_load_scheme.type || !t_load_scheme.value) {
             throw new Error("ERRPR: Invalid arguments passed to '__handleLoadScheme'");
         }
 
+        // if all is well, handle load scheme
         switch (t_load_scheme.type) {
             case "url":
                 t_browser_window.loadURL(t_load_scheme.value).catch((err) => console.error("ERROR: Failed to load URL -- ", err));
