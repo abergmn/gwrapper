@@ -11,3 +11,8 @@ maybe RegEx later. but for now this works.
 // fetch load schemes from 't_wrapper_arguments
 
 rewrite '#__handleLoadScheme' function to  
+
+
+// NOTE (IDEA): electron-store to save config containing user preferences and things like
+    //              - last location
+    //              - or custom preferreed location for window on start
